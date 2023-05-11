@@ -1,6 +1,6 @@
 var page=function(){};
 page.getCookie=(name,def=undefined)=>{var matches=document.cookie.match(new RegExp("(?:^|; )"+name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g,'\\$1')+"=([^;]*)"));return matches?decodeURIComponent(matches[1]):def};
-page.invert=()=>{page.dark=!page.dark;document.cookie="dark="+(+page.dark);page.dark?$('html').addClass('dark'):$('html').removeClass('dark')};
+page.invert=()=>{page.dark=!page.dark;document.cookie="dark="+(+page.dark)+';SameSite=Lax';page.dark?$('html').addClass('dark'):$('html').removeClass('dark')};
 page.dark=!parseInt(page.getCookie('dark'/*,window.matchMedia&&window.matchMedia('(prefers-color-scheme:dark)').matches?1:0*/));
 page.invert();
 $(function($){
