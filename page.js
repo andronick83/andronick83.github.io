@@ -5,7 +5,7 @@ page.dark=!parseInt(page.getCookie('dark'/*,window.matchMedia&&window.matchMedia
 page.invert();
 $(function($){
 	//$('html').addClass('ease');
-	var navi=$('<div class=navi>').append($('<a class=hljs-string>').attr('href','https://github.com/andronick83/jquery.json-viewer-callback/').append('<b>JVC JSON-viewer</b>'));
+	var navi=$('<div class=navi>').append($('<a class=hljs-string>').attr('href','https://github.com/andronick83/jquery.json-viewer-callback/#jqueryjson-viewer-callback').append('<b>JVC JSON-viewer</b>'));
 	var menu=$('<span class=fright>');
 	menu.append('<span class="ico ico-sun" onclick=page.invert(true)></span>');
 	navi.append(menu).prependTo('body');
