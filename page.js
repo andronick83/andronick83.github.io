@@ -6,7 +6,7 @@ page.invert();
 $(function($){
 	//$('html').addClass('ease');
 	var navi=$('<div class=navi>').append($('<a class=hljs-string>').attr('href','https://github.com/andronick83/jquery.json-viewer-callback/#jqueryjson-viewer-callback').append('<b>JVC JSON-Viewer</b>'));
-	var menu=$('<span class=fright>');
+	var menu=$('<span>');
 	menu.append('<span class="ico ico-sun" onclick=page.invert(true)></span>');
 	navi.append(menu).prependTo('body');
 	setTimeout(()=>{
