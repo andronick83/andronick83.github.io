@@ -15,7 +15,7 @@ $(function($){
 			var styles=[$("<option/>",{text:'jvc-default',selected:'selected'})],s;
 			for(i in files){s=files[i].match(/^styles\/(.+)\.min\.css$/);if(s)styles.push($("<option/>",{text:s[1]}))}
 			var select=$('<select>').append(styles);
-			$('<span>').addClass('hljs-attr').append('Style: ',select)
+			$('<span>').addClass('hljs-attr').append('Style:',select)
 				.prependTo(menu).on('change',function(a,b,c){var s=select.val();JVC.setStyle(select.val())})
 		})
 	},0);
