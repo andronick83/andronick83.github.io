@@ -17,9 +17,7 @@ $(function($){
 			var select=$('<select>').append(styles);
 			$('<span>').addClass('hljs-attr').append('Style:',select)
 				.prependTo(menu).on('change',function(a,b,c){var s=select.val();JVC.setStyle(select.val())})
-		})
-	},0);
-	setTimeout(()=>{
+		});
 		$.ajax('https://cdn.jsdelivr.net/gh/herrstrietzel/fonthelpers@main/json/gfontsAPI.json').done(function(d){
 			var fonts=d.items;
 			var opts=[$("<option/>",{text:'jvc-default',selected:'selected'})],s;
