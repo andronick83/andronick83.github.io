@@ -19,4 +19,18 @@ $(function($){
 				.prependTo(menu).on('change',function(a,b,c){var s=select.val();JVC.setStyle(select.val())})
 		})
 	},0);
+	setTimeout(()=>{
+		$.ajax('https://cdn.jsdelivr.net/gh/herrstrietzel/fonthelpers@main/json/gfontsAPI.json').done(function(d){
+			var fonts=d.items;
+			var opts=[$("<option/>",{text:'jvc-default',selected:'selected'})],s;
+			for(i in fonts){f=fonts[i];if(f.category=='monospace')opts.push($("<option/>",{text:f.family}))}
+			var select=$('<select>').append(opts);
+			$('<span>').addClass('hljs-attr').append('Font:',select).prependTo(menu).on('change',function(){
+				var f=select.val();WebFont.load({google:{families:[f]},active:function(){$('head>.jvc-font').remove();
+					$('<style class=jvc-font>')
+					.append('.jvc,.jvc-font{font-family:"'+f+'",monospace!important}').appendTo('head');
+				}});
+			})
+		})
+	},0);
 });
