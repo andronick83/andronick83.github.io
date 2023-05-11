@@ -1,9 +1,9 @@
-body{min-width:500px;color:white;padding:0;margin:0;height:100%;line-height:20px;background-color:#161616;font-family:monospace;overflow:auto}
+body{min-width:520px;color:white;padding:0;margin:0;height:100%;line-height:20px;background-color:#161616;font-family:monospace;overflow:auto}
 .dark{filter:invert(100%) contrast(100%) brightness(100%)}.ease{transition:all 0.3s ease-in-out}
 .dark .no-invert{filter:invert(100%) contrast(100%) brightness(100%)}
 
 /*.navi{position:fixed;z-index:999;top:0;left:0;right:0;height:20px;background-color:black;padding:0 8px 0 14px;box-shadow:0 2px 4px rgba(255,255,255,.08)}*/
-.navi{height:20px;background-color:black;padding:0 8px 0 14px;box-shadow:0 2px 4px rgba(255,255,255,.08);min-width:500px;width:100%}
+.navi{height:20px;background-color:black;padding:0 8px 0 14px;box-shadow:0 2px 4px rgba(255,255,255,.08)}
 .navi a,.navi span{height:20px;display:inline-block;vertical-align:top;margin-left:8px;}
 
 .navi .ico{margin-top:2px;width:16px;height:16px;cursor:pointer;background-size:cover}.navi .ico-sun{background-image:url(/sun.png)}
@@ -13,7 +13,7 @@ body{min-width:500px;color:white;padding:0;margin:0;height:100%;line-height:20px
 .dark .navi select>option{background-color:white;color:black}
 .fright{float:right}
 
-.page{width:100%;margin:8px;padding:4px;background-color:black;border:1px solid rgba(255,255,255,.1);border-radius:6px}
+.page{margin:8px;padding:4px;background-color:black;border:1px solid rgba(255,255,255,.1);border-radius:6px}
 .page>*{margin-bottom:4px}.page>*:last-child{margin:0}
 
 .dark .jvc{filter:invert(100%) contrast(100%) brightness(100%)}
