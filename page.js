@@ -16,14 +16,14 @@ var fontLoaderSetText=()=>{var n=document.querySelector('.font-loader'),b=docume
 var fontLoaderWait=(n)=>{var find=0,wait=0;var fontWait=(n)=>{
 		document.fonts.forEach((a,b,c)=>{
 			if(a.family!=n&&a.family!='"'+n+'"')return;
-			console.log('fontWait',n,[a.family,b.family],c.status);
+			//console.log('fontWait',n,[a.family,b.family],c.status);
 			find=1;fontLoad(a,b,n)});
-		console.log('fontWait',find?'find':'not-find');
+		//console.log('fontWait',find?'find':'not-find');
 		if(find)return;
-		wait+=1;if(wait>200)return console.log('fontWait','timeout');setTimeout(fontWait,20,n)};
+		wait+=1;if(wait>200)return console.error('fontWait','timeout');setTimeout(fontWait,20,n)};
 	setTimeout(fontWait,20,n)};
 async function fontLoad(a,b,n){await a.load();await b.load();
-	console.log('fontLoad',n,document.fonts.check("14px "+n),[a.status,b.status]);
+	//console.log('fontLoad',n,document.fonts.check("14px "+n),[a.status,b.status]);
 	setTimeout(JVC.setFontFamily,100,'"'+n+'"')}
 var JVC_setFontn=(n)=>{
 	if(n=='monospace'){fontLoaderSetFont(n);JVC.setFontFamily(n);return}
