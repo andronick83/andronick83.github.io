@@ -43,7 +43,8 @@ $(function($){
 	var selStyle=$('<select>').append($("<option/>",{text:'no-style'}),$("<option/>",{text:'jvc-default',selected:true}));
 	var selFontn=$('<select>').append($("<option/>",{text:'monospace'}),$("<option/>",{text:'jvc-default',selected:true}));
 	var menu=$('<span class=fright>').append($('<span>').append('Style:',selStyle),$('<span>').append('Font:',selFontn),icoDark);
-	var title=$('<a class=title>').attr('href','https://github.com/andronick83/jquery.json-viewer-callback/').append($('title').text());
+	var caption=$('title').text();if(caption=='jquery.json-viewer-callback')caption='JVC';
+	var title=$('<a class=title>').attr('href','https://github.com/andronick83/jquery.json-viewer-callback/').append(caption);
 	var navi=$('<div class="navi no-dark">');
 	navi.append(title,menu).prependTo('body');
 	//
