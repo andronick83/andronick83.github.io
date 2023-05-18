@@ -7,21 +7,37 @@ page.dark=()=>{if(page._dark===null)page._dark=!parseInt(page.getCookie('dark',w
 	var r=document.querySelector(':root');page._dark?r.classList.add('dark'):r.classList.remove('dark');return false};
 page._dark=null;page.dark();
 
-JVC_setFontFamilyLoad=(n)=>{JVC.setProperty('font-family-load',n)}
-JVC_setFontn=(n,l=false)=>{
-	$('head>.jvc-fonts').removeClass('jvc-fonts').addClass('jvc-fonts-old');
-	var setFontFamily=(n)=>{JVC_setFontFamilyLoad(n);JVC.setFontFamily(n);$('.jvc-fonts-old').remove()}
-	if(n=='monospace')return setFontFamily('monospace');
-	if(n=='jvc-default')return setFontFamily(JVC.defFontFamily);
-	if(!l)l='https://fonts.googleapis.com/css?family='+encodeURIComponent(n);
-	$('<link rel=stylesheet class=jvc-fonts>').on('error',console.error).attr('href',l).appendTo('head');
-	n='"'+n+'",monospace';JVC_setFontFamilyLoad(n);
-	var setFontFamily=()=>{JVC.setFontFamily(n);$('.jvc-fonts-old').remove()};
-	document.fonts.ready.then(()=>{setFontFamily(n)})};
+function findUnique(str){let u="";for(let i=0;i<str.length;i++){if(u.includes(str[i])===false){u+=str[i]}}return u}
+
+
+fontLoaderNode=()=>{var n=document.querySelector('.font-loader');if(n)return;
+	n=document.createElement('span');n.classList.add('jvc','font-loader');document.querySelector('body').append(n)};
+fontLoaderSetFont=(n)=>{document.querySelector(":root").style.setProperty('--font-loader','"'+n+'"')};
+fontLoaderSetText=()=>{var n=document.querySelector('.font-loader'),b=document.querySelector('body'),t=findUnique(b.innerText);n.innerText=t};
+fontLoaderWait=(n)=>{var find=0,wait=0;var fontWait=(n)=>{
+		document.fonts.forEach((a,b,c)=>{
+			if(a.family!=n&&a.family!='"'+n+'"')return;
+			console.log('fontWait',n,[a.family,b.family],c.status);
+			find=1;fontLoad(a,b,n)});
+		console.log('fontWait',find?'find':'not-find');
+		if(find)return;
+		wait+=1;if(wait>200)return console.log('fontWait','timeout');setTimeout(fontWait,20,n)};
+	setTimeout(fontWait,20,n)};
+async function fontLoad(a,b,n){await a.load();await b.load();
+	console.log('fontLoad',n,document.fonts.check("14px "+n),[a.status,b.status]);
+	setTimeout(JVC.setFontFamily,100,'"'+n+'"')}
+JVC_setFontn=(n)=>{
+	if(n=='monospace'){fontLoaderSet(n);JVC.setFontFamily(n);return}
+	if(n=='jvc-default'){n=JVC.defFontFamily;fontLoaderSet(n);JVC.setFontFamily(n);return};
+	fontLoaderSetText();
+	var l='https://fonts.googleapis.com/css?family='+encodeURIComponent(n);
+	var d=$('<link rel=stylesheet class=font-loader-css>').on('load',()=>{fontLoaderWait(n)}).on('error',console.error);
+	d.attr('href',l).appendTo('head');fontLoaderSetFont(n);};
 
 $(function($){
+	fontLoaderNode();
 	var setStyle=(n)=>{JVC.setStyle(n)};
-	var setFontn=(n)=>{JVC_setFontn(n)};
+	var setFontn=(n)=>{try{JVC_setFontn(n)}catch(e){setTimeout(JVC.setFontFamily,100,'"'+n+'"');console.error('setFontn',e)}};
 	var jvcStyle=page.getCookie('jvc-style','jvc-default');setStyle(jvcStyle);
 	var jvcFontn=page.getCookie('jvc-fontn','jvc-default');setFontn(jvcFontn);
 	var icoDark=$('<span class="ico ico-sun">').on('click',page.dark);
@@ -35,13 +51,13 @@ $(function($){
 	setTimeout(()=>{
 		$.ajax('https://api.cdnjs.com/libraries/highlight.js?fields=assets').done(function(d){
 			var files=d.assets[0].files,opts=[],n;
-			for(i in files){n=files[i].match(/^styles\/(.+)\.min\.css$/);if(n)opts.push($("<option/>",{text:n[1]}))}
+			for(i in files){n=files[i].match(/^styles\/(.+)\.min\.css$/);if(n)opts.push($("<option>",{text:n[1]}))}
 			selStyle.append(opts).val(jvcStyle);
 			selStyle.on('change',function(){var n=$(this).val();page.setCookie('jvc-style',n);setStyle(n)})})
 		$.ajax('https://cdn.jsdelivr.net/gh/herrstrietzel/fonthelpers@main/json/gfontsAPI.json').done(function(d){
 			var fonts=d.items,opts=[],n;
-			for(i in fonts){n=fonts[i];if(n.category=='monospace')opts.push($("<option/>",{text:n.family}))}
+			for(i in fonts){n=fonts[i];if(n.category=='monospace')opts.push($("<option>",{text:n.family}))}
 			selFontn.append(opts).val(jvcFontn);
 			selFontn.on('change',function(){var n=$(this).val();page.setCookie('jvc-fontn',n);setFontn(n)})})
-	},0)
+	},10)
 });
