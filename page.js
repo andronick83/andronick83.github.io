@@ -33,12 +33,13 @@ var JVC_setFontn=(n)=>{
 	var d=$('<link rel=stylesheet class=font-loader-css>').on('load',()=>{fontLoaderWait(n)}).on('error',console.error);
 	d.attr('href',l).appendTo('head');fontLoaderSetFont(n);};
 
+var setStyle=(n)=>{JVC.setStyle(n)};
+var setFontn=(n)=>{try{JVC_setFontn(n)}catch(e){setTimeout(JVC.setFontFamily,100,'"'+n+'"');console.error('setFontn',e)}};
+var jvcStyle=page.getCookie('jvc-style','jvc-default');setStyle(jvcStyle);
+var jvcFontn=page.getCookie('jvc-fontn','jvc-default');setFontn(jvcFontn);
+
 $(function($){
 	fontLoaderNode();
-	var setStyle=(n)=>{JVC.setStyle(n)};
-	var setFontn=(n)=>{try{JVC_setFontn(n)}catch(e){setTimeout(JVC.setFontFamily,100,'"'+n+'"');console.error('setFontn',e)}};
-	var jvcStyle=page.getCookie('jvc-style','jvc-default');setStyle(jvcStyle);
-	var jvcFontn=page.getCookie('jvc-fontn','jvc-default');setFontn(jvcFontn);
 	var icoDark=$('<span class="ico ico-sun">').on('click',page.dark);
 	var selStyle=$('<select>').append($("<option/>",{text:'no-style'}),$("<option/>",{text:'jvc-default',selected:true}));
 	var selFontn=$('<select>').append($("<option/>",{text:'monospace'}),$("<option/>",{text:'jvc-default',selected:true}));
