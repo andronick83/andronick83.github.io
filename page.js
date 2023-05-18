@@ -7,14 +7,13 @@ page.dark=()=>{if(page._dark===null)page._dark=!parseInt(page.getCookie('dark',w
 	var r=document.querySelector(':root');page._dark?r.classList.add('dark'):r.classList.remove('dark');return false};
 page._dark=null;page.dark();
 
-function findUnique(str){let u="";for(let i=0;i<str.length;i++){if(u.includes(str[i])===false){u+=str[i]}}return u}
+var findUnique=(str)=>{let u="";for(let i=0;i<str.length;i++){if(u.includes(str[i])===false){u+=str[i]}}return u}
 
-
-fontLoaderNode=()=>{var n=document.querySelector('.font-loader');if(n)return;
+var fontLoaderNode=()=>{var n=document.querySelector('.font-loader');if(n)return;
 	n=document.createElement('span');n.classList.add('jvc','font-loader');document.querySelector('body').append(n)};
-fontLoaderSetFont=(n)=>{document.querySelector(":root").style.setProperty('--font-loader','"'+n+'"')};
-fontLoaderSetText=()=>{var n=document.querySelector('.font-loader'),b=document.querySelector('body'),t=findUnique(b.innerText);n.innerText=t};
-fontLoaderWait=(n)=>{var find=0,wait=0;var fontWait=(n)=>{
+var fontLoaderSetFont=(n)=>{document.querySelector(":root").style.setProperty('--font-loader','"'+n+'"')};
+var fontLoaderSetText=()=>{var n=document.querySelector('.font-loader'),b=document.querySelector('body'),t=findUnique(b.innerText);n.innerText=t};
+var fontLoaderWait=(n)=>{var find=0,wait=0;var fontWait=(n)=>{
 		document.fonts.forEach((a,b,c)=>{
 			if(a.family!=n&&a.family!='"'+n+'"')return;
 			console.log('fontWait',n,[a.family,b.family],c.status);
@@ -26,9 +25,9 @@ fontLoaderWait=(n)=>{var find=0,wait=0;var fontWait=(n)=>{
 async function fontLoad(a,b,n){await a.load();await b.load();
 	console.log('fontLoad',n,document.fonts.check("14px "+n),[a.status,b.status]);
 	setTimeout(JVC.setFontFamily,100,'"'+n+'"')}
-JVC_setFontn=(n)=>{
-	if(n=='monospace'){fontLoaderSet(n);JVC.setFontFamily(n);return}
-	if(n=='jvc-default'){n=JVC.defFontFamily;fontLoaderSet(n);JVC.setFontFamily(n);return};
+var JVC_setFontn=(n)=>{
+	if(n=='monospace'){fontLoaderSetFont(n);JVC.setFontFamily(n);return}
+	if(n=='jvc-default'){n=JVC.defFontFamily;fontLoaderSetFont(n);JVC.setFontFamily(n);return};
 	fontLoaderSetText();
 	var l='https://fonts.googleapis.com/css?family='+encodeURIComponent(n);
 	var d=$('<link rel=stylesheet class=font-loader-css>').on('load',()=>{fontLoaderWait(n)}).on('error',console.error);
