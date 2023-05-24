@@ -19,25 +19,22 @@ logging._config.style={ALL:'font-style:italic;',NAME:'color:gray;font-style:ital
 logging.basicConfig=(config)=>{Object.assign(this._config,config)};
 logging.getLogger=function(name='logging'){this.loggers={};
 	if((name in this.loggers))return this.loggers[name];
-	return(this.loggers[name]=new function logger(){var t=this,lg=logging;
-		t.config=Object.assign({},lg._config);
-		t.name=name;t.level=t.config.level;
-		t.setLevel=(l)=>{t.level=l};
-		t.log=(l,...msg)=>{if(Number(l)!==l||l<0||l>6){msg.unshift(l);l=lg.INFO}if(l<t.level)return;var s=t.config.style;
+	return(this.loggers[name]=new function logger(){var t=this,lg=logging;t.config=Object.assign({},lg._config);t.name=name;
+		t.log=(l,...msg)=>{if(typeof l!=='number'||l<0||l>6){msg.unshift(l);l=lg.INFO}if(l<t.config.level)return;var s=t.config.style;
 			     if(l>=lg.EXCEPTION)l='EXCEPTION';else if(l>=lg.CRITICAL)l='CRITICAL';else if(l>=lg.ERROR)l='ERROR';
 			else if(l>=lg.WARNING)l='WARNING';else if(l>=lg.INFO)l='INFO';else if(l>=lg.DEBUG)l='DEBUG';else l='NOTSET';
 			if(l==='EXCEPTION'){msg.push("\n"+(new Error().stack.split("\n").slice(3).join("\n")))}
 			lg.console[l]("%c"+l.padStart(9)+" %c"+t.name+'%c:',s.ALL+s[l],s.ALL+s.NAME,s.COLON,...msg)}
 		t.debug=(...msg)=>{t.log(lg.DEBUG,...msg)};t.info=(...msg)=>{t.log(lg.INFO,...msg)};
 		t.warning=(...msg)=>{t.log(lg.WARNING,...msg)};t.error=(...msg)=>{t.log(lg.ERROR,...msg)};
-		t.critical=(...msg)=>{t.log(lg.CRITICAL,...msg)};t.exception=(...msg)=>{t.log(lg.EXCEPTION,...msg)}})};
+		t.critical=(...msg)=>{t.log(lg.CRITICAL,...msg)};t.exception=(...msg)=>{t.log(lg.EXCEPTION,...msg)};
+		t.setLevel=(l)=>{t.config.level=l}})};
 logging.logger=logging.getLogger();
 logging.methods='log,debug,info,warning,error,critical,exception'.split(',');
 logging.methods.forEach((m)=>{logging[m]=logging.logger[m]});
 logging.replaceConsole=(n='logging')=>{var l=logging.getLogger(n);logging.methods.forEach((m)=>{console[m]=l[m]});console.log=l.info};
 logging.restoreConsole=()=>{logging.methods.forEach((m)=>{delete console[m]});
 	console.debug=logging.console.DEBUG;console.log=logging.console.LOG;console.error=logging.console.ERROR};
-
 //
 
 /** /
