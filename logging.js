@@ -42,7 +42,7 @@ logging.getLogger=function(name='logger'){this.loggers={};
 	})};
 logging._logger=logging.getLogger();
 'log,debug,info,warning,error,critical,exception'.split(',').forEach((m)=>{logging[m]=logging._logger[m]});
-logging.replaceConsole=()=>{console.debug=logging.debug;console.log=logging.info;console.error=logging.error}
+logging.replaceConsole=(n='logger')=>{var l=logging.getLogger(n);console.debug=l.debug;console.log=l.info;console.error=l.error}
 logging.restoreConsole=()=>{console.debug=logging.console.DEBUG;console.log=logging.console.LOG;console.error=logging.console.ERROR}
 
 //
