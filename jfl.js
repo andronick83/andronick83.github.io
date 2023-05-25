@@ -6,8 +6,8 @@
  */
 
 "use strict";
-var JFL=JFL||{};
 
+var JFL=JFL||{};
 JFL.Loader=function(conf={}){
 	this.name=null;
 	this.node=null;
@@ -91,7 +91,6 @@ JFL.defConf={
 
 /*
 // Example:
-
 var fontLoader = new JFL.Loader({timeout: 1000, debug: ()=>{}});
 fontLoader.load("Source Code Pro",(name, status, check)=>{
 	console.log('fontLoader', name, status, check)
