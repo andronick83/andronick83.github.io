@@ -60,6 +60,7 @@ var JVC_setFontn=(n,cb=null)=>{//document.fonts.check('14px "Source Code Pro"');
 				for(i in fonts){n=fonts[i];if(n.category=='monospace')opts.push($("<option>",{text:n.family}))}
 				selFontn.append(opts).val(jvcFontn);
 				selFontn.on('change',function(){var n=$(this).val();page.setCookie('jvc-fontn',n);JVC_setFontn(n)})
-			});
-	});
+			})
+		})
+	})
 })(jQuery);
