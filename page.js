@@ -40,14 +40,12 @@ var JVC_setFontn=(n,cb=null)=>{//document.fonts.check('14px "Source Code Pro"');
 	var title=$('<a class=title>').attr('href','https://github.com/andronick83/jquery.json-viewer-callback/').append(caption);
 	var navi=$('<div class="navi no-dark">');
 	//
-	$(document).on('JVC:load',(v,JVC)=>{JVC.setStyle(jvcStyle)});
-	//
 	var JVC_callbackAjax=function(e,n,d,c){var ajax;
 		if(typeof d==='string')ajax={url:d,dataType:"json"};else ajax=d;
 		$.ajax(ajax).done(c).fail(function(xhr, status, err){c({"jvc-fail": status+' ('+(err? err :xhr.status)+')'})})};
 	//
 	document.addEventListener('DOMContentLoaded',function(){
-		var once=false;
+		JVC.setStyle(jvcStyle);
 		JVC_setFontn(jvcFontn,(n)=>{
 			var $page=$('.page'),i;
 			navi.append(title,menu).prependTo('body');
@@ -63,6 +61,5 @@ var JVC_setFontn=(n,cb=null)=>{//document.fonts.check('14px "Source Code Pro"');
 				selFontn.append(opts).val(jvcFontn);
 				selFontn.on('change',function(){var n=$(this).val();page.setCookie('jvc-fontn',n);JVC_setFontn(n)})
 			});
-		});
 	});
 })(jQuery);
