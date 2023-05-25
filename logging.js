@@ -39,10 +39,8 @@ logging.restoreConsole=()=>{logging.methods.forEach((m)=>{delete console[m]});
 
 /** /
 // Example:
-
 var logger=logging.getLogger('MyLogger.Test');
 logger.setLevel(logging.NOTSET);
-
 logger.log(logging.NOTSET,'NOTSET');
 
 logger.debug('DEBUG');
@@ -63,6 +61,6 @@ logger.exception('EXCEPTION');
 })();
 
 // Replace console methods:
-logging.replaceConsole();
+logging.replaceConsole('page');
 console.log("Test Console");
 /**/
