@@ -1,6 +1,6 @@
 /*!
  * JavaScript Pythonic Logger (JPL) v1.0.0
- * @Link: https://github.com/andronick83/jquery.json-viewer-callback
+ * @Link: https://github.com/andronick83/andronick83.github.io
  * @License: Released under the MIT license
  * @Author: andronick83 <andronick.mail@gmail.com>
  */
