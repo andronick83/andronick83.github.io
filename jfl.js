@@ -83,9 +83,7 @@ JFL.Loader=function(conf={}){
 };
 
 JFL.defConf={
-	timeout:3000,
-	debug=console.debug,
-	error=console.error,
+	timeout:3000,debug=console.debug,error=console.error,
 	style='position:fixed;z-index:-1;user-select:none;font-family:var(--font-loader);',
 };
 
