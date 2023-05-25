@@ -1,3 +1,12 @@
+/*!
+ * JavaScript Example Page
+ * @Link: https://github.com/andronick83/andronick83.github.io
+ * @License: Released under the MIT license
+ * @Author: andronick83 <andronick.mail@gmail.com>
+ */
+
+"use strict";
+
 var page={};
 page.getCookie=(name,def=null)=>{var matches=document.cookie.match(new RegExp("(?:^|; )"+
 	name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g,'\\$1')+"=([^;]*)"));return matches?decodeURIComponent(matches[1]):def};
