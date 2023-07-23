@@ -1,4 +1,4 @@
 {
 	"test": "ajax loaded json",
-	"next": {"jvc-cb": "/file.json"}
+	"next": {"§Callback": "/ajax"}
 }
