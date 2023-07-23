@@ -37,7 +37,7 @@
 			selFontn=nNode('select',0,{name:'fontn'},[nNode('option',0,0,'monospace'),nNode('option',0,0,'jvc-default')]),
 			decFont=nNode('span','ico',0,'-'),incFont=nNode('span','ico',0,'+'),icoInvert=nNode('span',['ico','ico-sun']),
 			menu=nNode('span','fright',0,[nNode('span',0,0,['Style:',selStyle]),nNode('span',0,0,['Font:',selFontn]),decFont,incFont,icoInvert]),
-			title=nNode('a','title',{href:isGit?'https://github.com/andronick83/jquery.json-viewer-callback/':'https://'+document.location.host},D.title==isGit?D.title:'SUPERVISOR-WEB'),
+			title=nNode('a','title',{href:isGit?'https://github.com/andronick83/jquery.json-viewer-callback/':'https://'+document.location.host},D.title==isGit?'JVC':D.title),
 			navi=nNode('div',['navi','page-no-invert'],0,[title,menu]),
 			jvcDecFont=_=>JVC.setFontSize(Math.max(parseFloat(JVC.property('font-size'))-2,2)),
 			jvcIncFont=_=>JVC.setFontSize(parseFloat(JVC.property('font-size'))+2);
