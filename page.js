@@ -1,5 +1,5 @@
 /*!
- * JavaScript Example Page
+ * Page: DOMReady, Cookie, Invert, OnLoad Triggers
  * @Link: https://github.com/andronick83/andronick83.github.io
  * @License: Released under the MIT license
  * @Author: andronick83 <andronick.mail@gmail.com>
@@ -7,60 +7,78 @@
 
 "use strict";
 
-var page=page||{};
-page.getCookie=(name,def=null)=>{var matches=document.cookie.match(new RegExp("(?:^|; )"+
-	name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g,'\\$1')+"=([^;]*)"));return matches?decodeURIComponent(matches[1]):def};
-page.setCookie=(name,val=null)=>{document.cookie=name+"="+val+';SameSite=Lax'};
-page.dark=(d=null)=>{if(!('_dark'in page))page._dark=null;if(page._dark===null)page._dark=!parseInt(page.getCookie('dark',window.matchMedia&&
-	window.matchMedia('(prefers-color-scheme:dark)').matches?0:1));page._dark=!page._dark;page.setCookie('dark',+page._dark);
-	var r=document.querySelector(':root');page._dark?r.classList.add('dark'):r.classList.remove('dark');return false};
-page.dark();
-
-// FontLoader
-var fontsDone=['Source Code Pro','monospace'];
-var JVC_setFontn=(n,cb=null)=>{//document.fonts.check('14px "Source Code Pro"');
-	var logger=logging.getLogger('JVC_setFontn');
-	var doneFont=function(){if(!fontsDone.includes(n))fontsDone.push(n);JVC.setFontFamily(n);cb&&cb(n)}
-	if(n=='monospace'){return doneFont()}if(n=='jvc-default'){n='"Source Code Pro",monospace';return doneFont()}
-	if(fontsDone.includes(n))return doneFont();
-	WebFont.load({classes:false,timeout:2000,google:{families:[n]},
-		fontloading:()=>{logger.debug('fontloading:',n)},
-		fontactive:()=>{logger.debug('fontactive:',n);doneFont()},
-		fontinactive:(...args)=>{logger.warning('fontinactive:',n,[...args]);doneFont()}})};
-
-// MAIN
-(function($){
-	var jvcStyle=page.getCookie('jvc-style','jvc-default');
-	var jvcFontn=page.getCookie('jvc-fontn','jvc-default');
-	var icoDark=$('<span class="ico ico-sun">').on('click',page.dark);
-	var selStyle=$('<select>').append($("<option/>",{text:'no-style'}),$("<option/>",{text:'jvc-default',selected:true}));
-	var selFontn=$('<select>').append($("<option/>",{text:'monospace'}),$("<option/>",{text:'jvc-default',selected:true}));
-	var menu=$('<span class=fright>').append($('<span>').append('Style:',selStyle),$('<span>').append('Font:',selFontn),icoDark);
-	var caption=$('title').text();if(caption=='jquery.json-viewer-callback')caption='JVC';
-	var title=$('<a class=title>').attr('href','https://github.com/andronick83/jquery.json-viewer-callback/').append(caption);
-	var navi=$('<div class="navi no-dark">');
+((W,n)=>{const P=W[n]||{},D=document;
+	P.domReady=c=>D.readyState==='loading'?D.addEventListener('DOMContentLoaded',_=>c(D)):c(D);
+	P.cookie={get:(name,def=null)=>{
+			var m=D.cookie.match(new RegExp("(?:^|; )"+name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g,'\\$1')+"=([^;]*)"));
+			return m?decodeURIComponent(m[1]):def},
+		set:(name,val=null)=>{D.cookie=name+"="+val+';SameSite=Lax'}};
+	P.invert=(_=>{const I=function(){const c='page-invert';
+		if(I.state===undefined)
+			I.state=!parseInt(P.cookie.get(c,window.matchMedia&&window.matchMedia('(prefers-color-scheme:dark)').matches?0:1));
+		I.state=!I.state;P.cookie.set(c,+I.state);var r=D.documentElement;
+		I.state?r.classList.add(c):r.classList.remove(c);return I.state};return I})();
+	P.domReady(P.invert);
 	//
-	var JVC_callbackAjax=function(e,n,d,c){var ajax;
-		if(typeof d==='string')ajax={url:d,dataType:"json"};else ajax=d;
-		$.ajax(ajax).done(c).fail(function(xhr, status, err){c({"jvc-fail": status+' ('+(err? err :xhr.status)+')'})})};
+	P.objLoad=(_=>{const L=function(name,cb=!1,obj=W){if(!L.map)L.map=new Map();
+		if(L.map.has(name)){const l=L.map.get(name);if(cb)l.run(cb);return l}
+		const l={evs:new Set(),run:e=>{l.evs.add(e);return l},obj:obj[name]};L.map.set(name,l);
+		const done=v=>{l.obj=v;l.run=c=>{c(v);return l};l.evs.forEach(c=>c(v));delete l.evs};
+		if(!(name in obj)){if(delete obj[name]){Object.defineProperty(obj,name,{enumerable:!0,configurable:!0,
+			set:v=>{if(delete obj[name]);obj[name]=v;console.debug(`${name}:Load`,v);
+			setTimeout(done,0,v)}})}}
+		else if(l.evs)done(obj[name]);if(cb)l.run(cb);return l};return L})();
+	P.wait=function(){const w={},l=Array.prototype.slice.call(arguments);w.run=c=>{
+			let s=l.length;const r=l.slice(),d=(i,n,o)=>{r[i]=o;s--;if(!s)c.apply(P,r)};
+			l.forEach((n,i)=>{const e=o=>d(i,n,o);r[n]=null;if(n=='document')P.domReady(e);else P.objLoad(n,e)});
+			return w};return w};
 	//
-	document.addEventListener('DOMContentLoaded',function(){
-		JVC.setStyle(jvcStyle);
-		JVC_setFontn(jvcFontn,(n)=>{
-			var $page=$('.page'),i;
-			navi.append(title,menu).prependTo('body');
-			$.ajax('https://api.cdnjs.com/libraries/highlight.js?fields=assets').done(function(d){
-				var files=d.assets[0].files,opts=[],n;
-				for(i in files){n=files[i].match(/^styles\/(.+)\.min\.css$/);if(n)opts.push($("<option>",{text:n[1]}))}
-				selStyle.append(opts).val(jvcStyle);
-				selStyle.on('change',function(){var n=$(this).val();page.setCookie('jvc-style',n);JVC.setStyle(n)})
-			});
-			$.ajax('https://cdn.jsdelivr.net/gh/herrstrietzel/fonthelpers@main/json/gfontsAPI.json').done(function(d){
-				var fonts=d.items,opts=[],n;
-				for(i in fonts){n=fonts[i];if(n.category=='monospace')opts.push($("<option>",{text:n.family}))}
-				selFontn.append(opts).val(jvcFontn);
-				selFontn.on('change',function(){var n=$(this).val();page.setCookie('jvc-fontn',n);JVC_setFontn(n)})
-			})
-		})
-	})
-})(jQuery);
+	Object.defineProperties(P,{name:{enumerable:!1,configurable:!1,value:n.slice(0,1).toUpperCase()+n.slice(1)}});
+	W[n]=P;const l=P.onload;P.onload={add:c=>c(P)};if(l&&l.forEach)l.forEach(c=>c(P));
+})(typeof window=='undefined'?this:window,'page');
+
+//
+
+/** / // EXAMPLES:
+
+//=== page.domReady (Document OnLoad Trigger):
+page.domReady(D=>{
+	console.log(D.title)
+});
+
+//=== page.objLoad (Object OnLoad Trigger):
+// jQuery OnLoad Trigger:
+page.objLoad('jQuery',$=>{
+	console.log('jQuery Loaded', $('body'));
+});
+// More Triggers:
+page.objLoad('jQuery').run($=>{
+	console.log($('html'));
+}).run($=>{
+	console.log($('body'));
+});
+// TestObj OnLoad Trigger:
+page.objLoad('TestObj').run(T=>{ T('TestString'); })
+// Define TestObject:
+setTimeout(function(){
+	window.TestObj=function(str){console.log('TestObj Loaded:', str)};
+},3000);
+
+//=== page.wait (Objects OnLoad Trigger):
+page.wait('jQuery','JVC','document').run(($,JVC,D)=>{
+	console.log($('body'),JVC,D.title);
+});
+
+//=== page.onload (Page Defer OnLoad Trigger) Full Example:
+<script src="/page.js" defer></script>
+...
+<script>
+window.page=window.page||{onload:new Set()};
+page.onload.add(page=>{
+	page.wait('jQuery','JVC','document').run(($,JVC,D)=>{
+		console.log($('body'),JVC,D.title);
+	});
+});
+</script>
+
+/**/
