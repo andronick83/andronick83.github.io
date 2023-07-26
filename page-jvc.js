@@ -31,6 +31,9 @@
 	// Page OnLoad Trigger:
 	window.page=window.page||{onload:new Set()};
 	page.onload.add(page=>{
+		page.load.js('https://cdn.lr-ingest.com/LogRocket.min.js',_=>{
+			window.LogRocket&&window.LogRocket.init('m3pmyl/jquery-json-viewer-callback')});
+
 		let	isGit=(document.location.host=='andronick83.github.io'),
 			jvcStyle=page.cookie.get('jvc-style','jvc-default'),jvcFontn=page.cookie.get('jvc-fontn','jvc-default'),
 			selStyle=nNode('select',0,{name:'style'},[nNode('option',0,0,'no-style'),nNode('option',0,0,'jvc-default')]),
