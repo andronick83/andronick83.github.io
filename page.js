@@ -7,7 +7,15 @@
 
 "use strict";
 
-((W,n)=>{const P=W[n]||{},D=document;
+((W,n)=>{const P=W[n]||{},D=document,DH=D.head,
+	N=HTMLElement,pN=N.prototype,nArr=l=>(l instanceof Array||l instanceof NodeList?l:[l]),
+	nApp=(pN.append?(e,l)=>e.append(...nArr(l)):(e,l)=>aFor(nArr(l),n=>e.appendChild(nFrom(n)))),
+	nNode=(p,c=0,a=0,l=0)=>{let n=(typeof(p,'string')?D.createElement(p):p.cloneNode(!0));
+		if(c)n.classList.add(...(typeof(c,'string')?[c]:c));for(let k in a)n.setAttribute(k,a[k]);if(l)nApp(n,l);return n};
+	//
+	P.load={css:(u,c=null)=>{let n=nNode('link',0,{rel:'stylesheet',href:u});n.onload=c;nApp(DH,n)},
+		js:(u,c=null)=>{let n=nNode('script',0,{src:u});n.onload=c;nApp(DH,n)}};
+	//
 	P.domReady=c=>D.readyState==='loading'?D.addEventListener('DOMContentLoaded',_=>c(D)):c(D);
 	P.cookie={get:(name,def=null)=>{
 			var m=D.cookie.match(new RegExp("(?:^|; )"+name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g,'\\$1')+"=([^;]*)"));
@@ -40,6 +48,10 @@
 //
 
 /** / // EXAMPLES:
+
+//=== page.load.[css/js]:
+page.load.css('page.css');
+page.load.js('page.js',_=>{console.log('js-loaded')});
 
 //=== page.domReady (Document OnLoad Trigger):
 page.domReady(D=>{
