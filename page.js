@@ -7,6 +7,9 @@
 
 "use strict";
 
+(_=>{try{new Function('(a=0)=>a')}
+	catch(_){console.error("This browser doesn`t support JavaScript ES6/2015\nhttps://www.w3schools.com/js/js_versions.asp")}})();
+
 ((W,n)=>{const P=W[n]||{},D=document,DH=D.head,
 	N=HTMLElement,pN=N.prototype,nArr=l=>(l instanceof Array||l instanceof NodeList?l:[l]),
 	nApp=(pN.append?(e,l)=>e.append(...nArr(l)):(e,l)=>aFor(nArr(l),n=>e.appendChild(nFrom(n)))),
