@@ -32,3 +32,4 @@ body{line-height:20px;font-family:"Source Code Pro",monospace}body *{box-sizing:
 .page{margin:0;padding:12px;padding-top:24px;overflow:auto;height:100%;width:100%}
 .content{padding:12px;background-color:black;color:white;border-radius:6px;min-width:calc(var(--page-min-width) - 32px)}
 .content>span{display:inline-block;padding:4px;padding-left:calc(8px + var(--jvc-tab-width));color:silver;user-select:none}
+.page-invert .content{color:black}.page-invert .content>span{color:grey}
