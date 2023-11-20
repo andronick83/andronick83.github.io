@@ -47,6 +47,9 @@ page.wait('jQuery','JVC','document').run(($,JVC,D)=>{
 ```html
 <!-- === page.onload (Page Defer OnLoad Trigger) Full Example: -->
 <script src="/page.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" defer></script>
+<script src="jvc.js" defer></script>
+
 <!-- ... -->
 <script>
 window.page=window.page||{onload:new Set()};
