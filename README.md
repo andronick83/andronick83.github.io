@@ -8,7 +8,7 @@ Home Page, Scripts, Examples
 
 ## Examples:
 
-# page.js - DOMReady, Cookie, Invert, OnLoad Triggers
+# page.js - DOMReady Trigger; Cookie Get/Set; Page Invert Mode; Deffered "OnLoad" Triggers
 
 ```JavaScript
 //=== page.load.[css/js]:
